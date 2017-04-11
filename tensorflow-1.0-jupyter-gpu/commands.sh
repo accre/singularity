@@ -1,0 +1,2 @@
+cat /etc/*release
+printenv
