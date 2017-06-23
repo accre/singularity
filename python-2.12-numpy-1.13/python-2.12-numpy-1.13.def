@@ -1,0 +1,62 @@
+# Def file for creating Singularity image of Ubuntu 16.10 image
+# with numpy, scipy, matplotlib, scikit-learn, pandas, etc
+
+# This must be run on a box you own! i.e. have root access to, like a VM.
+
+BootStrap: docker
+From: ubuntu:16.10
+
+%runscript
+    echo "This section is executed when you use the"
+    echo "singularity run subcommand"
+
+    # This allows us to run the version of python installed
+    # in the post section and pass in arguments (e.g. a .py file)
+    # from the command line
+    exec python "$@"
+
+%post
+    # Runs within the container during Bootstrap
+
+    # First, make the following directories, which will allow
+    # you to access GPFS /scratch and /data from within the 
+    # container on the cluster
+    mkdir /scratch /data /gpfs21 /gpfs22 /gpfs23
+
+    apt-get install -y software-properties-common
+    apt-add-repository universe 
+    apt-get update
+
+    # Install the necessary packages (from repo)
+    apt-get install -y --no-install-recommends \
+        build-essential \
+        curl \
+        git \
+        libcurl3-dev \
+        libfreetype6-dev \
+        pkg-config \
+        python \
+        python-dev \
+        rsync \
+        unzip \
+        zip \
+        zlib1g-dev
+
+    apt-get install -y python-pip
+    apt-get clean
+
+    # Update to the latest pip (newer than repo)
+    pip install --no-cache-dir --upgrade pip
+    
+    # Install other commonly-needed packages
+    pip install --no-cache-dir --upgrade \
+        future \
+        matplotlib \
+        numpy \
+        scipy \
+        sklearn \
+        pandas \
+        nose
+
+%test
+    python -c "import numpy as np; np.test()"
