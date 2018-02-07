@@ -1,0 +1,12 @@
+singularity-from-tmp/baseline.txt
+singularity-from-tmp/gpfs-test/
+singularity-from-tmp/gpfs.txt
+singularity-from-tmp/lio-copy-tmp-test/
+singularity-from-tmp/lio-copy-tmp.txt
+singularity-from-tmp/lio-test/
+singularity-from-tmp/lio.txt
+singularity-from-tmp/nodes.txt
+singularity-from-tmp/stats.py
+singularity-from-tmp/tmp-no-copy.txt
+singularity-from-tmp/tmp-test/
+singularity-from-tmp/tmp-with-copy.txt
