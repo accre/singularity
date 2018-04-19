@@ -1,0 +1,13 @@
+# Singularity image with tensorflow 1.7 and keras.
+
+BootStrap: docker
+From: tensorflow/tensorflow:latest-gpu-py3
+
+%help
+    Singularity image with TensorFlow 1.7 and Keras running on python 3.5 with GPU support. 
+
+%post
+    export LC_ALL=C
+    export PATH=/bin:/sbin:/usr/bin:/usr/sbin:$PATH
+    pip3 install -U keras
+    mkdir /scratch /data /gpfs20 /gpfs21 /gpfs22 /gpfs23
