@@ -1,0 +1,21 @@
+BootStrap: yum
+OSVersion: 7
+MirrorURL: http://mirror.centos.org/centos-%{OSVERSION}/%{OSVERSION}/os/$basearch/
+Include: yum
+
+%labels
+  Maintainer Eric Appelt
+
+%help
+  Base container for internal ACCRE use with LMod support
+  To access the software stack make sure to bind mount /cvmfs and /accre
+
+%files
+  lmod.sh /etc/profile.d/lmod.sh
+  lmod-7.8.8-1.x86_64.rpm /lmod-7.8.8-1.x86_64.rpm
+
+%post
+  yum -y install wget bzip2 gcc tcl tk tar procps git
+  yum -y install http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+  yum -y install lua lua-devel lua-posix lua-filesystem
+  yum -y install /lmod-7.8.8-1.x86_64.rpm
