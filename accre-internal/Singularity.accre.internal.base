@@ -8,7 +8,7 @@ Include: yum
 
 %help
   Base container for internal ACCRE use with Lmod support
-  To access the software stack make sure to bind mount /accre/arch and /accre/common
+  To access the software stack make sure to bind mount /accre and /cvmfs
 
 %environment
   export MODULEPATH_ROOT=/accre/arch/easybuild/modules/all
@@ -37,4 +37,4 @@ Include: yum
   rm -rf ${LMOD_VERSION}.tar.gz Lmod-${LMOD_VERSION}
 
   # Setup CVMFS binds for ACCRE software stack
-  mkdir -p /accre/arch /accre/common
+  mkdir -p /accre /cvmfs
