@@ -18,6 +18,11 @@ Include: yum
   export LMOD_RC=/accre/common/lmod/etc/lmodrc.lua
   source /usr/local/lmod/lmod/init/bash
 
+%setup
+  install -Dv \
+    accre_lmod_bash_profile \
+    ${SINGULARITY_ROOTFS}/etc/profile.d/accre_01_lmod.sh
+
 %post
   yum -y install wget bzip2 gcc tcl tk tar procps git
   
