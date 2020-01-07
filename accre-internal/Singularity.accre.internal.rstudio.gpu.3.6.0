@@ -17,7 +17,7 @@ From: accre.internal.base.sif
 
 %environment
   export PATH=/usr/lib/rstudio-server/bin:${PATH}
-  ml GCC/8.2.0 OpenMPI/3.1.4 R/3.6.0
+  ml GCC/8.2.0 CUDA/10.1.105 OpenMPI/3.1.4 R/3.6.0
 
 %setup
   install -Dv \
@@ -25,7 +25,7 @@ From: accre.internal.base.sif
     ${SINGULARITY_ROOTFS}/usr/lib/rstudio-server/bin/rstudio_auth
 
   install -Dv \
-    accre_rstudio_bash_profile \
+    accre_rstudio_gpu_bash_profile \
     ${SINGULARITY_ROOTFS}/etc/profile.d/accre_02_rstudio.sh
 
 %post
