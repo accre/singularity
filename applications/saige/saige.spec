@@ -57,16 +57,15 @@ From:ubuntu:16.04
     git clone --depth 1 https://github.com/weizhouUMICH/SAIGE.git
     SRC=/opt/SAIGE
 
-    # all of the dependent libraries and head files are already placed in the configure
-    cd $SRC
-    ./configure
-
     # clear all of object files
     rm ${SRC}/src/*.o 
     rm ${SRC}/src/*.so
 
     # now we should go to install the saige
     R CMD INSTALL --build $SRC
+
+    # move the R file to /usr/local/bin
+    cp $SRC/extdata/*.R /usr/local/bin
 
     # post-setup script
     mkdir /scratch /data /gpfs52 /gpfs23
