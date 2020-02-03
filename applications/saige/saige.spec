@@ -75,3 +75,9 @@ From:ubuntu:16.04
     # set up the PATH
     PATH=/usr/local/bin:$PATH
 
+    # get rid of the warning when each time launch the singularity 
+	 export LC_ALL=C.UTF-8
+	 export LANG=C.UTF-8
+	 echo 'export LC_ALL=C.UTF-8' >> $SINGULARITY_ENVIRONMENT
+	 echo 'export LANG=C.UTF-8' >> $SINGULARITY_ENVIRONMENT
+
