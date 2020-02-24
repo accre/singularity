@@ -34,6 +34,7 @@ From:ubuntu:18.04
     chmod a+x tabix.exe
     chmod a+x tabix
     chmod a+x bedGraphToBigWig
+    chmod a+x Canvas
 
     # post-setup script
     mkdir /scratch /data /gpfs52 /gpfs23
