@@ -28,7 +28,7 @@ From:ubuntu:18.04
 		 liblapack-dev
 
     # use pip install
-    python3 -m pip install hail ipython
+    python3 -m pip install hail ipython PyVCF
 
     # post-setup script
     mkdir /scratch /data /gpfs52 /gpfs51 /gpfs23
