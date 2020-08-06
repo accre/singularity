@@ -1,0 +1,7 @@
+export PATH=/usr/lib/rstudio-server/bin:${PATH}
+export MODULEPATH_ROOT=/accre/arch/easybuild/modules/all
+export MODULEPATH=$MODULEPATH_ROOT/Core:$MODULEPATH_ROOT/BinDist
+export LMOD_SHORT_TIME=86400
+export LMOD_ADMIN_FILE=/accre/common/lmod/etc/admin.lmod
+export LMOD_RC=/accre/common/lmod/etc/lmodrc.lua
+source /usr/local/lmod/lmod/init/bash
