@@ -22,9 +22,7 @@ From:ubuntu:20.04
   export LMOD_RC=/accre/common/lmod/etc/lmodrc.lua
 
 %runscript
-  # this needs to be run with version > 3.2
-  #!/bin/bash
-  . /usr/local/lmod/lmod/init/bash
+  sh -c ". /usr/local/lmod/lmod/init/sh"
 
 %post
 
