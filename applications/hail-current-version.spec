@@ -2,7 +2,7 @@ Bootstrap:docker
 From:ubuntu:18.04
 
 %help
-    A container for Hail program, in version of 0.2.49. One thing to note, that the jdk in version of 8 is necessary, jdk 11 does not work 
+    A container for Hail program with current version number. One thing to note, that the jdk in version of 8 is necessary, jdk 11 does not work 
 
 %labels 
     Author Fenglai liu (fenglai@accre.vanderbilt.edu)
@@ -17,6 +17,7 @@ From:ubuntu:18.04
        gfortran \
        g++ \
        autoconf  \
+       wget \
 		 cmake \
 		 tar \
 		 git \
@@ -27,6 +28,12 @@ From:ubuntu:18.04
 		 libopenblas-dev \
 		 liblapack-dev
 
+    # now let's download the install the spark
+    cd /tmp
+    wget https://mirrors.gigenet.com/apache/spark/spark-2.4.6/spark-2.4.6-bin-hadoop2.7.tgz
+    tar -xvf spark-2.4.6-bin-hadoop2.7.tgz
+    mv spark-2.4.6-bin-hadoop2.7 /opt/spark
+
     # use pip install
     python3 -m pip install hail ipython PyVCF
 
@@ -34,4 +41,7 @@ From:ubuntu:18.04
     mkdir /scratch /data /gpfs52 /gpfs51 /gpfs23
 
 %environment
-    
+
+    export PATH=/opt/spark/bin:$PATH
+    export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+
