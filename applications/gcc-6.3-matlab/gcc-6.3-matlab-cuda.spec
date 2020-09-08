@@ -46,14 +46,14 @@ Include: yum
   # now let's download cuda and install it
   # make sure to change the CUDA version etc. if you need another version
   cd /tmp
-  CUDA="cuda-repo-rhel7-10.1.243-1.x86_64.rpm"
+  CUDA="cuda-repo-rhel7-10.0.130-1.x86_64.rpm"
   wget https://developer.download.nvidia.com/compute/cuda/repos/rhel7/x86_64/${CUDA}
   rpm --install ${CUDA}
   yum clean expire-cache
   yum list --showduplicates cuda
 #  yum list --showduplicates cuda-drivers
 #  yum list --showduplicates nvidia-driver-latest-dkms
-  yum -y install nvidia-driver-latest-dkms cuda-drivers cuda-10.1.243-1.x86_64
+  yum -y install nvidia-driver-latest-dkms cuda-drivers cuda-10.0.130-1.x86_64
 
   # gmp
   cd /opt
