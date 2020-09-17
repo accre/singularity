@@ -24,6 +24,9 @@ Include: yum
   export PATH=/opt/gcc/bin:/opt/gcc/libexec/gcc/x86_64-pc-linux-gnu/6.3.0:$PATH
   export LD_LIBRARY_PATH=/opt/gcc/lib64:/opt/gcc/lib/gcc/x86_64-pc-linux-gnu/6.3.0:$LD_LIBRARY_PATH
 
+  # loading GCC libraries 
+  export LD_LIBRARY_PATH=/opt/gmp/lib:/opt/mpfr/lib:/opt/mpc/lib:$LD_LIBRARY_PATH
+
 %setup
   install -Dv \
     accre_lmod_bash_profile \
