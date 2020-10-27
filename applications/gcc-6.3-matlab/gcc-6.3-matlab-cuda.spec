@@ -27,6 +27,10 @@ Include: yum
   # loading GCC libraries 
   export LD_LIBRARY_PATH=/opt/gmp/lib:/opt/mpfr/lib:/opt/mpc/lib:$LD_LIBRARY_PATH
 
+  # loading cuda stuff
+  export PATH=/usr/local/cuda/bin:$PATH
+  export LD_LIBRARY_PATH=usr/local/cuda/lib64:$LD_LIBRARY_PATH
+
 %setup
   install -Dv \
     accre_lmod_bash_profile \
