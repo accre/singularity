@@ -8,7 +8,7 @@ Include: yum
 
 %help
   This image is modified from a base container for ACCRE use with Lmod support,
-  which originally developed by Eric
+  which originally developed by Eric and Fenglai
 
 %environment
   export MODULEPATH_ROOT=/accre/arch/easybuild/modules/all
@@ -25,7 +25,10 @@ Include: yum
     ${SINGULARITY_ROOTFS}/etc/profile.d/accre_01_lmod.sh
 
 %files
-  # copy files here
+    ## add files to copy inside the container here:
+    ## for instance:
+    # scripts/* /workdir/scripts/
+    # config.json /workdir/config.json
 
 %post
     # yum needs some tlc to work properly in container
