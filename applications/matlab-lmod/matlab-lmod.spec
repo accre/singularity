@@ -64,7 +64,7 @@ Include: yum
     cd ..
     rm -rf ${LMOD_VERSION}.tar.gz Lmod-${LMOD_VERSION}
 
-    mkdir /scratch /data /gpfs22 /gpfs23
+    mkdir /nobackup /data /dors /gpfs51 /gpfs52  /panfs
 
     # Setup CVMFS binds for ACCRE software stack
     mkdir -p /accre /cvmfs
