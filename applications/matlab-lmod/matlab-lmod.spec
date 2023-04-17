@@ -8,7 +8,7 @@ Include: yum
 
 %help
   This image is modified from a base container for ACCRE use with Lmod support,
-  which originally developed by Eric and Fenglai
+  which originally developed by Eric
 
 %environment
   export MODULEPATH_ROOT=/accre/arch/easybuild/modules/all
@@ -24,11 +24,8 @@ Include: yum
     accre_lmod_bash_profile \
     ${SINGULARITY_ROOTFS}/etc/profile.d/accre_01_lmod.sh
 
-# %files
-    ## add files to copy inside the container here:
-    ## for instance:
-    # scripts/* /workdir/scripts/
-    # config.json /workdir/config.json
+%files
+  # copy files here
 
 %post
     # yum needs some tlc to work properly in container
@@ -36,17 +33,20 @@ Include: yum
     ARCH=x86_64
     echo $RELEASEVER > /etc/yum/vars/releasever
     echo $ARCH > /etc/yum/vars/arch
-
+    
     rpm -ivh --nodeps http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
     yum -d 10 check-update
 
-    # basic
+    # basic 
     yum clean all
-    yum -y install wget bzip2 gcc tcl tk tar procps git zlib-devel
+    yum -y install wget bzip2 gcc tcl tk tar procps git zlib-devel 
 
     # all of the building stuff
     yum -y install autoconf automake binutils bison flex gcc gcc-c++ gettext libtool make patch pkgconfig
 
+    # matlab stuff
+    yum -y install libXt libXext
+ 
     # Install Lmod
     cd /tmp
     export LMOD_VERSION=8.1.7
