@@ -29,7 +29,7 @@
 
 
 BootStrap: docker
-From: ubuntu:16.04
+From: ubuntu:20.04
 
 
 %runscript
