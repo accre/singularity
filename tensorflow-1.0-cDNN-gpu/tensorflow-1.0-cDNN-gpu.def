@@ -93,6 +93,7 @@ export LC_ALL=C
     cd $working_dir
 
 %environment
+
 	echo "Adding NVIDIA PATHs to /environment..."	
 	NV_DRIVER_PATH=/usr/local/NVIDIA-Linux-x86_64
 	LD_LIBRARY_PATH=/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:$NV_DRIVER_PATH:$LD_LIBRARY_PATH
