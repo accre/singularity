@@ -119,7 +119,7 @@ From: ubuntu:20.04
         libfreetype6-dev \
         libpng-dev \
         libzmq3-dev \
-        python-pip \
+        python3-pip \
         pkg-config \
         python-dev \
         rsync \
