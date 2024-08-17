@@ -10,3 +10,8 @@ singularity-from-tmp/stats.py
 singularity-from-tmp/tmp-no-copy.txt
 singularity-from-tmp/tmp-test/
 singularity-from-tmp/tmp-with-copy.txt
+NVIDIA-Linux-x86_64-535.129.03/
+NVIDIA-Linux-x86_64-535.129.03.runcuda_12.2.2_535.104.05_linux/
+cuda_12.2.2_535.104.05_linux/
+cudnn-linux-x86_64-9.3.0.75_cuda12-archive.tar.xz
+cuda_12.2.2_535.104.05_linux.run
