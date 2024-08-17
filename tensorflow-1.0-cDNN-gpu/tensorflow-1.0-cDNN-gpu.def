@@ -180,7 +180,7 @@ From: ubuntu:20.04
         future \
         matplotlib \
         scipy \
-        sklearn \
+        scikit-learn \
         jupyter \
         keras \
         SimpleITK \
