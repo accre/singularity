@@ -42,17 +42,46 @@ From: ubuntu:20.04
 %setup
     # Runs from outside the container during Bootstrap
 
-    NV_DRIVER_VERSION=375.26
-    NV_CUDA_FILE=cuda-linux64-rel-8.0.61-21551265.run
-    NV_CUDNN_FILE=cudnn-8.0-linux-x64-v5.1.tgz 
-    NV_DRIVER_FILE=NVIDIA-Linux-x86_64-${NV_DRIVER_VERSION}.run
+    # NV_DRIVER_VERSION=375.26
+    # NV_CUDA_FILE=cuda-linux64-rel-8.0.61-21551265.run
+    # NV_CUDNN_FILE=cudnn-8.0-linux-x64-v5.1.tgz 
+    # NV_DRIVER_FILE=NVIDIA-Linux-x86_64-${NV_DRIVER_VERSION}.run
+
+    # update to use current drivers/installs
+    NV_DRIVER_VERSION="535.104.05"
+    NVIDIA_VERSION="12.2.2"
+    # CUDA
+    CUDA_NAME="cuda_${NVIDIA_VERSION}_${NV_DRIVER_VERSION}_linux"
+    NV_CUDA_FILE="${CUDA_NAME}.run"
+    CUDA_URL="https://developer.download.nvidia.com/compute/cuda/${NVIDIA_VERSION}/local_installers/$NV_CUDA_FILE"
+    ABS_PATH_CUDA_EXTRACT="$(realpath "./${CUDA_NAME}")"
+    # CUDNN
+    NV_CUDNN_FILE="cudnn-linux-x86_64-9.3.0.75_cuda12-archive.tar.xz"
+    NV_CUDNN_URL="https://developer.download.nvidia.com/compute/cudnn/redist/cudnn/linux-x86_64/${NV_CUDNN_FILE}"
+    # NVIDIA driver
+    NVIDIA_DRIVER_FOLDER="NVIDIA-Linux-x86_64-${NV_DRIVER_VERSION}"
+    NV_DRIVER_FILE="$NVIDIA_DRIVER_FOLDER.run"
+    NVIDIA_DRIVER_URL="https://us.download.nvidia.com/tesla/${NV_DRIVER_VERSION}/${NV_DRIVER_FILE}"
+
+    # Pull down CUDA install
+    if [[ ! -d "$ABS_PATH_CUDA_EXTRACT"]]; then
+        [[ ! -f "$CUDA_NAME" ]] && curl -O "$CUDA_URL"
+        mkdir -p "$CUDA_NAME"
+        sh "./$CUDA_NAME.run" --extract="${ABS_PATH_CUDA_EXTRACT}"
+    fi
+
+    # CUDNN install
+    [[ ! -f "$NV_CUDNN_FILE" ]] && curl -O "$NV_CUDNN_URL"
+
+    # DRIVER
+    [[ ! -f "$NV_DRIVER_FILE" ]] && curl -O "$NVIDIA_DRIVER_URL"
 
     working_dir=$(pwd)
 
     echo "Unpacking NVIDIA driver into container..."
     cd ${SINGULARITY_ROOTFS}/usr/local/
     sh ${working_dir}/${NV_DRIVER_FILE} -x
-    mv NVIDIA-Linux-x86_64-${NV_DRIVER_VERSION} NVIDIA-Linux-x86_64
+    mv ${NVIDIA_DRIVER_FOLDER} NVIDIA-Linux-x86_64
     cd NVIDIA-Linux-x86_64/
     for n in *.$NV_DRIVER_VERSION; do
         ln -v -s $n ${n%.$NV_DRIVER_VERSION}
