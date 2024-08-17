@@ -127,6 +127,45 @@ From: ubuntu:20.04
         unzip \
         zip \
         zlib1g-dev
+        
+    # # https://docs.anaconda.com/anaconda/install/linux/
+
+    # # Alternate Anaconda3 Install
+    # apt-get install libgl1-mesa-glx \
+    #                 libegl1-mesa \
+    #                 libxrandr2 \
+    #                 libxrandr2 \
+    #                 libxss1 \
+    #                 libxcursor1 \
+    #                 libxcomposite1 \
+    #                 libasound2 \
+    #                 libxi6 \
+    #                 libxtst6
+
+    # # Replace <INSTALLER_VERSION> with the version of the installer file you want to download
+    # # For example, https://repo.anaconda.com/archive/Anaconda3-2023.09-0-Linux-x86_64.sh
+    # # All installers can be found at repo.anaconda.com/archive/
+    # curl -O https://repo.anaconda.com/archive/Anaconda3-<INSTALLER_VERSION>-Linux-x86_64.sh
+
+    # # Include the bash command even if you aren't using the Bash shell
+    # # Replace ~/Downloads with the path to the installer file, if necessary
+    # # Replace <INSTALLER_VERSION> with the version of the installer file
+    # # For example, Anaconda3-2023.09-0-Linux-x86_64.sh
+    # bash ~/Downloads/Anaconda3-<INSTALLER_VERSION>-Linux-x86_64.sh
+
+    # # Replace <PATH_TO_CONDA> with the path to your conda install
+    # source <PATH_TO_CONDA>/bin/activate
+    # conda init
+
+    # # The base environment is activated by default
+    # conda config --set auto_activate_base True
+
+    # # The base environment is not activated by default
+    # conda config --set auto_activate_base False
+
+    # # The above commands only work if conda init has been run first
+    # # conda init is available in conda versions 4.6.12 and later
+
 
     apt-get clean
 
