@@ -92,8 +92,6 @@ export LC_ALL=C
     ln -v -s libcuda.so.$NV_DRIVER_VERSION libcuda.so.1
     cd $working_dir
 
-    
-
 %environment
 	echo "Adding NVIDIA PATHs to /environment..."	
 	NV_DRIVER_PATH=/usr/local/NVIDIA-Linux-x86_64
