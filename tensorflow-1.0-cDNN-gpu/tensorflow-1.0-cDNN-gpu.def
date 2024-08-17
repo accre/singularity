@@ -92,19 +92,7 @@ export LC_ALL=C
     ln -v -s libcuda.so.$NV_DRIVER_VERSION libcuda.so.1
     cd $working_dir
 
-    echo "Running NVIDIA CUDA installer..."
-    sh $NV_CUDA_FILE --silent --no-man-page --toolkit --installpath=${SINGULARITY_ROOTFS}/usr/local/cuda-8.0
-    ln -r -s ${SINGULARITY_ROOTFS}/usr/local/cuda-8.0 ${SINGULARITY_ROOTFS}/usr/local/cuda
-
-    echo "Unpacking cuDNN..."
-    tar xvf $NV_CUDNN_FILE -C ${SINGULARITY_ROOTFS}/usr/local/
-
-    ln -s /usr/local/libnvidia-ml
-
-    # ln -s /usr/local/NVIDIA-Linux-x86_64/libcuda.so.1 ${SINGULARITY_ROOTFS}/usr/lib64/
-
-    ls ${SINGULARITY_ROOTFS}
-    ls ${SINGULARITY_ROOTFS}/usr
+    
 
 %environment
 	echo "Adding NVIDIA PATHs to /environment..."	
@@ -160,6 +148,20 @@ export LC_ALL=C
 	nibabel \
 	h5py \
     	pandas 
+
+    echo "Running NVIDIA CUDA installer..."
+    sh $NV_CUDA_FILE --silent --no-man-page --toolkit --installpath=${SINGULARITY_ROOTFS}/usr/local/cuda-8.0
+    ln -r -s ${SINGULARITY_ROOTFS}/usr/local/cuda-8.0 ${SINGULARITY_ROOTFS}/usr/local/cuda
+
+    echo "Unpacking cuDNN..."
+    tar xvf $NV_CUDNN_FILE -C ${SINGULARITY_ROOTFS}/usr/local/
+
+    ln -s /usr/local/libnvidia-ml
+
+    # ln -s /usr/local/NVIDIA-Linux-x86_64/libcuda.so.1 ${SINGULARITY_ROOTFS}/usr/lib64/
+
+    ls ${SINGULARITY_ROOTFS}
+    ls ${SINGULARITY_ROOTFS}/usr
 	
 
     mkdir /scratch /data /gpfs20 /gpfs21 /gpfs22 /gpfs23
