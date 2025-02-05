@@ -71,7 +71,7 @@ From: rockylinux:9
 	dnf clean all -y
 	dnf autoremove -y
 	rpm -e texlive $(rpm -qa | grep texlive)
-	rpm -e perl perl-CPAN llvm-libs annobin redhat-rpm-config perl-devel python-srpm-macros go-srpm-macros fonts-srpm-macros perl-ExtUtils-Embed perl-ExtUtils-Miniperl perl-ExtUtils-CBuilder
+	rpm -e perl perl-CPAN annobin redhat-rpm-config perl-devel python-srpm-macros go-srpm-macros fonts-srpm-macros perl-ExtUtils-Embed perl-ExtUtils-Miniperl perl-ExtUtils-CBuilder
 #	rpm -e $(rpm -qa | grep \\-devel | egrep -v "(libstdc|perl-devel|perl-Encode-devel|libquadmath-devel|glibc-devel|systemtap-sdt-devel|libxcrypt-devel|openmpi|openssl|libcurl|zlib|fontconfig|freetype|libxml2)")
 
 	# Test 1:  Verify that we can build the top 100 CRAN packages
