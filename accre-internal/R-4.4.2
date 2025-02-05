@@ -35,8 +35,8 @@ From: rockylinux:9
 		texlive-pdftex tk tk-devel tzdata udunits2-devel wget which xz-devel zlib-devel
 
 	# Ensure locale is set to en_US.UTF-8
-	echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen 
-	echo "LANG=en_US.UTF-8" > /etc/locale.conf 
+	echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
+	echo "LANG=en_US.UTF-8" > /etc/locale.conf
 
 	# Needed for downloading R source.
 	R_FOLDER_NAME="R-${R_VER}"
@@ -55,8 +55,8 @@ From: rockylinux:9
 	cd ..
 	rm -rf ${R_FOLDER_NAME}
 	rm -rf ${R_PACKAGE_NAME}
-	
-	# Build an OpenBLAS kernel optimized for Haswell as our "Least Common Denominator" hardware
+
+	# Build OpenBLAS
 	git clone https://github.com/OpenMathLib/OpenBLAS
 	cd OpenBLAS
 	make -j TARGET=${ARCH_OPENBLAS}
@@ -74,7 +74,7 @@ From: rockylinux:9
 	# /usr/local/bin/Rscript -e 'BiocManager::install(version = "3.20")'
 	# /usr/local/bin/Rscript -e 'BiocManager::install(c("BiocVersion", "GenomicAlignments", "preprocessCore"))'
 
-	# Remove files that are no longer necessary after building
+	# Remove files that are no longer necessary after building (can probably be pared down further)
 	rm -rf /tmp/$R_FOLDER_NAME
 	dnf clean all -y
 	dnf autoremove -y
