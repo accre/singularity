@@ -17,6 +17,19 @@ From: rockylinux:9
 	ARCH_OPENBLAS="HASWELL" ; ARCH_R="x86-64-v3"  # x86-64-v3
 	# ARCH_OPENBLAS="NEHALEM" ; ARCH_R="x86-64-v2"  # x86-64-v2 (our oldest compute node is Nehalam)
 
+	# A list of packages we need to install to build R
+	BUILD_DEPS="bzip2-devel cairo-devel cmake diffutils fontconfig-devel freetype-devel \
+		    fribidi-devel gcc gcc-c++ gcc-gfortran gdal gdal-devel gdal-libs git \
+		    glibc-langpack-en harfbuzz-devel hwloc-devel ImageMagick-devel \
+		    java-latest-openjdk java-latest-openjdk-devel libcurl-devel libevent-devel \
+		    libicu-devel libjpeg-turbo-devel libgomp libomp-devel libpng-devel \
+		    libtiff-devel libX11-devel libxml2-devel llvm-libs make make nodejs-libs \
+		    openmpi openssl-devel pcre2-devel perl python3 python3-devel readline \
+		    readline-devel sqlite-devel tcl texlive texlive-latex texlive-pdftex \
+		    tk tk-devel tzdata udunits2-devel wget which libXt-devel xz-devel zlib-devel"
+
+	### You shouldn't need to modify anything below here.
+
 	# We need to enable EPEL so we can fetch udunits2-devel
 	dnf install -y 'dnf-command(config-manager)'
 	dnf config-manager --set-enabled crb
@@ -24,17 +37,8 @@ From: rockylinux:9
 	dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
 
 	# Install build dependencies
-	yum install -y \
-		bzip2-devel cairo-devel cmake diffutils fontconfig-devel freetype-devel \
-		fribidi-devel gcc gcc-c++ gcc-gfortran gdal gdal-devel gdal-libs git \
-		glibc-langpack-en harfbuzz-devel hwloc-devel ImageMagick-devel \
-		java-latest-openjdk java-latest-openjdk-devel libcurl-devel libevent-devel \
-		libicu-devel libjpeg-turbo-devel libgomp libomp-devel libpng-devel \
-		libtiff-devel libX11-devel libxml2-devel llvm-libs make make nodejs-libs \
-		openmpi openssl-devel pcre2-devel perl python3 python3-devel readline \
-		readline-devel sqlite-devel tcl texlive texlive-latex texlive-pdftex \
-		tk tk-devel tzdata udunits2-devel wget which libXt-devel xz-devel zlib-devel
-		
+	yum install -y ${BUILD_DEPS}
+
 	# Ensure locale is set to en_US.UTF-8
 	echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
 	echo "LANG=en_US.UTF-8" > /etc/locale.conf
