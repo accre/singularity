@@ -30,10 +30,7 @@ From: rockylinux:9
 %setup
 	install -Dv accre_lmod_bash_profile    ${SINGULARITY_ROOTFS}/etc/profile.d/accre_01_lmod.sh
 	install -Dv rstudio_auth.sh            ${SINGULARITY_ROOTFS}/usr/lib/rstudio-server/bin/rstudio_auth
-	install -Dv pam-helper.sh              ${SINGULARITY_ROOTFS}/usr/lib/rstudio-server/bin/rstudio_auth
 	install -Dv accre_rstudio_bash_profile ${SINGULARITY_ROOTFS}/etc/profile.d/accre_02_rstudio.sh
-
-# /usr/lib/rstudio-server/bin/pam-helper
 
 %post
 	# Define the software versions we wish to build
