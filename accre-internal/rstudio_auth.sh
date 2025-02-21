@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 
 # Confirm username is supplied
-if [[ $# -ne 1 ]]; then
+if [[ $# -eq 0 ]]; then
   echo "Usage: auth USERNAME"
   exit 1
 fi
+
 USERNAME="${1}"
 
 # Confirm password environment variable exists
