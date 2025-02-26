@@ -4,7 +4,7 @@ From: rockylinux:9
 %arguments
 
 	# Define the software versions we wish to build
-	RSTUDIO_VERSION=2024.12.0-467
+	RSTUDIO_VERSION=2024.12.1-563
 	R_VERSION=4.4.2
 	LMOD_VERSION=8.7.56
 
@@ -45,7 +45,7 @@ From: rockylinux:9
 	export LMOD_RC=/accre/common/lmod/etc/lmodrc.lua
 	source /usr/local/lmod/lmod/init/bash
 	export PATH=/usr/lib/rstudio-server/bin:${PATH}
-	# Enable the lmod line below if you're using the lmod version of R instead of the Singularity R
+	# Enable the lmod line below to include lmod packages in the path
 	#  ml GCC/10.2.0 OpenMPI/4.0.5 R/4.0.5
 
 %setup
@@ -129,6 +129,14 @@ From: rockylinux:9
 
 	# Overwrite /etc/pam.d/rstudio with something more appropriate
 	cp /etc/pam.d/login /etc/pam.d/rstudio
+
+        # Add CRAN packages to the image
+        # /usr/local/bin/Rscript -e 'install.packages(c("tidyverse", "lubridate", "purrr", "broom"), repos = "https://cloud.r-project.org")'
+
+        # Add BioConductor packages to the image
+        # /usr/local/bin/Rscript -e 'install.packages("BiocManager", repos = "https://cloud.r-project.org")'
+        # /usr/local/bin/Rscript -e 'BiocManager::install(version = "3.20")'
+        # /usr/local/bin/Rscript -e 'BiocManager::install(c("BiocVersion", "GenomicAlignments", "preprocessCore"))'
 
 	# Remove files that are no longer necessary after building
 	dnf clean all -y
