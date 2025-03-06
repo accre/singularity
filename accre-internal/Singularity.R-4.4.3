@@ -9,7 +9,8 @@ From: rockylinux:9
         # These are the architectures to optimize OpenBLAS and R for:
         ### x86-64-v4 (doesn't build yet!)
         # ARCH_OPENBLAS=SKYLAKE
-        # ARCH_R=x86-64-v4
+        # ARCH_R=x86-64-v4  # R doesn't build yet with v4, so use v3
+	# ARCH_R=x86-64-v3  # Build with this until R supports v4
 
         ### x86-64-v3
         ARCH_OPENBLAS=HASWELL
@@ -45,7 +46,7 @@ From: rockylinux:9
 		openmpi openssl-devel pcre2-devel perl python3 python3-devel readline \
 		readline-devel sqlite-devel tcl texlive texlive-latex texlive-pdftex \
 		tk tk-devel tzdata udunits2-devel wget which libXt-devel xz-devel zlib-devel
-		
+
 	# Ensure locale is set to en_US.UTF-8
 	echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
 	echo "LANG=en_US.UTF-8" > /etc/locale.conf
@@ -54,7 +55,7 @@ From: rockylinux:9
 	wget https://cran.r-project.org/src/base/R-4/R-{{ R_VER }}.tar.gz
 	tar -xf R-{{ R_VER }}.tar.gz
 	cd R-{{ R_VER }}
-	CFLAGS="-march={{ ARCH_R }}" ./configure
+        FFLAGS="-march={{ ARCH_R}}" CFLAGS="-march={{ ARCH_R }}" ./configure --enable-R-shlib
 	make -j
 	make install
 	cd ..
