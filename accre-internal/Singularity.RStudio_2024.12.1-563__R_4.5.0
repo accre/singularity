@@ -10,17 +10,17 @@ From: rockylinux:9
 
         # These are the architectures to optimize OpenBLAS and R for:
         ### x86-64-v4 (doesn't build yet!)
-        # ARCH_OPENBLAS=SKYLAKE
-        # ARCH_R=x86-64-v4  # R doesn't build yet with v4, so use v3
-        # ARCH_R=x86-64-v3  # Build with this until R supports v4
+        ARCH_OPENBLAS=SKYLAKEX
+        ARCH_R=x86-64-v4 
+	# R doesn't build yet with v4, so use v3
 
 	### x86-64-v3
 	# ARCH_OPENBLAS=HASWELL
 	# ARCH_R=x86-64-v3
 
 	### x86-64-v2 (our oldest compute node is Nehalam)
-	ARCH_OPENBLAS=NEHALEM
-	ARCH_R=x86-64-v2
+	# ARCH_OPENBLAS=NEHALEM
+	# ARCH_R=x86-64-v2
 
 %labels
 
