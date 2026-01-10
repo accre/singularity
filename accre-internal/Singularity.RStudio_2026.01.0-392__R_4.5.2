@@ -70,16 +70,19 @@ From: rockylinux:9
 
 	# Install build dependencies
 	yum install -y \
-		abseil-cpp-devel bc bzip2 bzip2-devel cairo-devel cmake diffutils file fontconfig-devel \
-		freetype-devel fribidi-devel gcc gcc-c++ gcc-gfortran gdal gdal-devel \
-		gdal-libs geos geos-devel git glibc-langpack-en harfbuzz-devel hdf5-devel hwloc-devel \
-		ImageMagick-devel java-latest-openjdk java-latest-openjdk-devel libcurl-devel \
-		libevent-devel libicu-devel libjpeg-devel libjpeg-turbo-devel libgomp libomp-devel \
-		libpng-devel libtiff-devel libwebp-devel libX11-devel libxml2-devel libXt-devel llvm-libs \
-		make nodejs-libs openmpi openssl-devel pamtester pcre2-devel perl procps proj \
-		proj-devel python3 python3-devel readline readline-devel sqlite-devel tar \
-		tcl texlive texlive-latex texlive-pdftex tk tk-devel tzdata udunits2-devel \
-		wget which libXt-devel xz-devel zlib-devel
+		abseil-cpp-devel bc boost-devel bzip2 bzip2-devel cairo-devel chromium cmake cyrus-sasl-devel \
+		diffutils fftw-devel file fontconfig-devel freetype-devel fribidi-devel gcc gcc-c++ gcc-gfortran \
+		gdal gdal-devel gdal-libs geos geos-devel git glibc-langpack-en glpk-devel gmp-devel gsl-devel \
+		harfbuzz-devel hdf5-devel hiredis-devel hwloc-devel ImageMagick-devel ImageMagick-c++-devel \
+		java-11-openjdk java-11-openjdk-devel jq-devel leptonica-devel libarchive-devel libavfilter-free-devel \
+		libcurl-devel libevent-devel libgit2-devel libicu-devel libjpeg-devel libjpeg-turbo-devel libgomp \
+		libomp-devel libpng-devel libpq-devel librsvg2-devel libsecret-devel libsndfile-devel libsodium-devel \
+		libssh-devel libssh2-devel libtiff-devel libwebp-devel libX11-devel libxml2-devel libXt-devel libzstd-devel \
+		llvm-libs make mariadb-devel mesa-libGL-devel mesa-libGLU-devel mpfr-devel netcdf-devel nodejs-libs \
+		openmpi openssl-devel pamtester pcre2-devel perl poppler-cpp-devel procps proj proj-devel \
+		protobuf-compiler protobuf-devel python3 python3-devel readline readline-devel \
+		sqlite-devel tar tcl tesseract-devel texlive texlive-latex texlive-pdftex tk tk-devel tzdata \
+		udunits2-devel unixODBC-devel wget which libXt-devel xz xz-devel zeromq-devel zlib-devel
 	yum clean all
 
 	# Ensure locale is set to en_US.UTF-8
