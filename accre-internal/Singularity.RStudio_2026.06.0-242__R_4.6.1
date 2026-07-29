@@ -7,6 +7,7 @@ From: rockylinux:9
 	RSTUDIO_VERSION=2026.06.0-242
 	R_VERSION=4.6.1
 	LMOD_VERSION=8.7.56
+	OPENBLAS_VERSION=0.3.34
 
         # These are the architectures to optimize OpenBLAS and R for:
         ### x86-64-v4 (doesn't build yet!)
@@ -17,10 +18,6 @@ From: rockylinux:9
 	### x86-64-v3
 	ARCH_OPENBLAS=HASWELL
 	ARCH_R=x86-64-v3
-
-	### x86-64-v2 (no longer supported on cluster but here just in case)
-	# ARCH_OPENBLAS=NEHALEM
-	# ARCH_R=x86-64-v2
 
 %labels
 
@@ -61,15 +58,14 @@ From: rockylinux:9
 
 %post
 
-	# Enable the EPEL repo
+	# Enable the EPEL repo and CRB
 	dnf install -y 'dnf-command(config-manager)'
 	dnf config-manager --set-enabled crb
 	dnf update -y
 	dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
-	/usr/bin/crb enable
 
 	# Install build dependencies
-	yum install -y \
+	dnf install -y \
 		abseil-cpp-devel bc boost-devel bzip2 bzip2-devel cairo-devel chromium cmake cyrus-sasl-devel \
 		diffutils fftw-devel file fontconfig-devel freetype-devel fribidi-devel gcc gcc-c++ gcc-gfortran \
 		gdal gdal-devel gdal-libs geos geos-devel git glibc-langpack-en glpk-devel gmp-devel gsl-devel \
@@ -82,21 +78,16 @@ From: rockylinux:9
 		openmpi openssl-devel pamtester pcre2-devel perl poppler-cpp-devel procps proj proj-devel \
 		protobuf-compiler protobuf-devel python3 python3-devel readline readline-devel \
 		sqlite-devel tar tcl tesseract-devel texlive texlive-latex texlive-pdftex tk tk-devel tzdata \
-		udunits2-devel unixODBC-devel wget which libXt-devel xz xz-devel zeromq-devel zlib-devel
-	yum clean all
+		udunits2-devel unixODBC-devel wget which xz xz-devel zeromq-devel zlib-devel
+	dnf clean all
 
 	# Ensure locale is set to en_US.UTF-8
-	echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
 	echo "LANG=en_US.UTF-8" > /etc/locale.conf
 
-	# Set the timezone
-	rm -f /etc/localtime
-	TZ="America/Chicago" ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezone
-
 	# Install Lmod
-	yum -y install lua lua-filesystem lua-posix lua-term lua-devel
-	yum -y install make
+	dnf -y install lua lua-filesystem lua-posix lua-term lua-devel
 	wget https://github.com/TACC/Lmod/archive/{{ LMOD_VERSION }}.tar.gz
+	echo "b7ee903b79ccd5bf195921f09bfc13879ad09d2b4598f4a0c2346bad9faaf28c  {{ LMOD_VERSION }}.tar.gz" | sha256sum -c -
 	tar xzf {{ LMOD_VERSION }}.tar.gz
 	cd Lmod-{{ LMOD_VERSION }}
 	./configure --with-spiderCacheDir=/accre/arch/lmod/cache \
@@ -108,29 +99,39 @@ From: rockylinux:9
 
 	# Install RStudio Server
 	wget https://download2.rstudio.org/server/rhel9/x86_64/rstudio-server-rhel-{{ RSTUDIO_VERSION }}-x86_64.rpm
-	yum -y install rstudio-server-rhel-{{ RSTUDIO_VERSION }}-x86_64.rpm
+	echo "3120f4dc32247712060b1d133c50929b8ee3dae29c5eb85e9fe0134e2ecad80d  rstudio-server-rhel-{{ RSTUDIO_VERSION }}-x86_64.rpm" | sha256sum -c -
+	dnf -y install rstudio-server-rhel-{{ RSTUDIO_VERSION }}-x86_64.rpm
 	rm -f rstudio-server-rhel-{{ RSTUDIO_VERSION }}-x86_64.rpm
 
-	# Install R
+	# Install OpenBLAS (before R, so R can link against it)
+	git clone --depth 1 --branch v{{ OPENBLAS_VERSION }} https://github.com/OpenMathLib/OpenBLAS
+	cd OpenBLAS
+	make -j TARGET={{ ARCH_OPENBLAS }}
+	make PREFIX=/usr/local/openblas install
+	cd ..
+	rm -rf OpenBLAS
+
+	# Install R (linked against OpenBLAS)
 	wget https://cran.r-project.org/src/base/R-4/R-{{ R_VERSION }}.tar.gz
+	echo "4da6e61d2c0aac5f14a2e7e432cb5fcc269efe83da4293050ba7f03dff4e2cf4  R-{{ R_VERSION }}.tar.gz" | sha256sum -c -
 	tar -xf R-{{ R_VERSION }}.tar.gz
 	cd R-{{ R_VERSION }}
-	FFLAGS="-march={{ ARCH_R}}" CFLAGS="-march={{ ARCH_R }}" ./configure --enable-R-shlib
+	FFLAGS="-march={{ ARCH_R}} -I/usr/local/openblas/include" \
+	CFLAGS="-march={{ ARCH_R }} -I/usr/local/openblas/include" \
+	./configure --enable-R-shlib \
+            --with-blas="-L/usr/local/openblas/lib -lopenblas" \
+            --with-lapack="-L/usr/local/openblas/lib -lopenblas"
 	make -j
 	make install
 	cd ..
 	rm -rf R-{{ R_VERSION }}
 	rm -rf R-{{ R_VERSION }}.tar.gz
 
-	# Install OpenBLAS
-	git clone https://github.com/OpenMathLib/OpenBLAS
-	cd OpenBLAS
-	make -j TARGET={{ ARCH_OPENBLAS }}
-	cp libopenblas.so /usr/local/lib64/R/lib
-	rm /usr/local/lib64/R/lib/libRblas.so
-	ln -s /usr/local/lib64/R/lib/libopenblas.so  /usr/local/lib64/R/lib/libRblas.so
-	cd ..
-	rm -rf OpenBLAS
+	# Replace R's bundled BLAS with the OpenBLAS we already linked against
+	rm -f /usr/local/lib64/R/lib/libRblas.so
+	ln -s /usr/local/openblas/lib/libopenblas.so /usr/local/lib64/R/lib/libRblas.so
+	echo "/usr/local/openblas/lib" > /etc/ld.so.conf.d/openblas.conf
+	ldconfig
 
 	# Install CRAN packages in the image
 	# /usr/local/bin/Rscript -e 'install.packages(c("tidyverse", "lubridate", "purrr", "broom"), repos = "https://cloud.r-project.org")'
@@ -148,7 +149,6 @@ From: rockylinux:9
 
 	# Remove files that are no longer necessary after building
 	dnf clean all -y
-	dnf autoremove -y
 	rpm -e texlive $(rpm -qa | grep texlive)
 	rpm -e perl perl-CPAN annobin redhat-rpm-config perl-devel python-srpm-macros go-srpm-macros fonts-srpm-macros perl-ExtUtils-Embed perl-ExtUtils-Miniperl perl-ExtUtils-CBuilder
 
